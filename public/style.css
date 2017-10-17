@@ -3,10 +3,13 @@ body {
 }
 
 .container {
-    margin: 5%;
+    margin: 10%;
 }
 .addForm {
-    margin-bottom: 20px;
+    margin-bottom: 6%;
+}
+.listItem {
+    margin-bottom: 3%;
 }
 button {
     border: none;
@@ -14,7 +17,7 @@ button {
     color: white;
     cursor: pointer;
     font: inherit;
-    margin: 10px;    
+    margin: 10px;
 }
 button:hover {
     color: greenyellow;
@@ -59,8 +62,11 @@ button:focus, input:focus {
     .listItem {
         margin-bottom: 30px;
     }
+    button {
+        padding: 1%;
+    }
     .listItem button {
-        width: 25%;
+        width: 25%;        
         margin: 5%;
         margin-top: 1%;
     }

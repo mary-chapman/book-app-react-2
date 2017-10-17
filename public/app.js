@@ -1,4 +1,14 @@
 class BookApp extends React.Component {
+    render() {
+        return (
+            <div className="container">
+                <h1>Book List</h1>
+                <BookListContainer />
+            </div>
+        )
+    }
+}
+class BookListContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -16,35 +26,31 @@ class BookApp extends React.Component {
     }
     handleAddItem(input) {
         console.log(input)
-        this.setState({ books: [...this.state.books, {title: input} ] })
+        if (input.value) {
+            this.setState({ books: [...this.state.books, {title: input.value} ] })
+            input.value = ""
+        }
     }
     render() {
         return (
-            <div className="container">
-                <h1>Book List</h1>
-                <AddBookItem className="addForm" onAddItem={this.handleAddItem.bind(this)}/>
+            <div>
+                <AddBookItem onAddItem={this.handleAddItem.bind(this)}/>
                 
                 {this.state.books.map((book,index) => {
-                    return <BookItem className="listItem" 
-                                    key={index} 
-                                    title={book.title} 
-                                    index={index}
-                                    onDeleteItem={()=>{this.handleDeleteItem(index)}}
-                                    onSaveItem={this.handleSaveEdit.bind(this)}
-                                    />
+                    return <BookItem key={index} title={book.title} index={index}
+                                onDeleteItem={()=>{this.handleDeleteItem(index)}}
+                                onSaveItem={this.handleSaveEdit.bind(this)} />
                 })}
             </div>
         )
     }
 }
+
 class BookItem extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = { isEditing: false }
-    }
-    handleDelItem(index) {
-        this.props.onDeleteItem(index)
     }
     handleSaveItem(input, index) {
         this.props.onSaveItem(input, this.props.index);
@@ -53,9 +59,9 @@ class BookItem extends React.Component {
     render() {
         return (
             (!this.state.isEditing) ? 
-                <ReadBookItem title={this.props.title} 
+                <ReadBookItem title={this.props.title} index={this.props.index} 
                               onEditChange={() => this.setState({ isEditing: true })}
-                              onDelItem={() => this.handleDelItem(this.props.index)}/> :
+                              onDelItem={() => this.props.onDeleteItem(this.props.index)}/> :
                 <EditBookItem title={this.props.title} 
                               onCancelEdit={() => this.setState({ isEditing: false })}
                               onSaveItem={this.handleSaveItem.bind(this)}
@@ -64,18 +70,12 @@ class BookItem extends React.Component {
     }
 }
 class ReadBookItem extends React.Component {
-    handleEditClick() {
-        this.props.onEditChange();
-    }
-    handleDelItem(index) {
-        this.props.onDelItem(index)
-    }
     render() {
         return (
-            <div>
-                <h2>{this.props.title}</h2>
-                <button onClick={()=>this.handleEditClick()}>edit</button>
-                <button onClick={()=> this.handleDelItem(this.props.index)}>delete</button>
+            <div className="listItem">
+                <h2>{`${this.props.index + 1}. ${this.props.title}`}</h2>
+                <button onClick={()=>this.props.onEditChange()}>edit</button>
+                <button onClick={()=> this.props.onDelItem(this.props.index)}>delete</button>
             </div>            
         )
     }
@@ -89,7 +89,7 @@ class EditBookItem extends React.Component {
     }
     render() {
         return (
-            <div> 
+            <div className="listItem"> 
                 <input defaultValue={this.props.title} ref={(input) => this.userInput = input}/>
                 <button onClick={this.handleSaveItem.bind(this)}>save</button>
                 <button onClick={()=>this.handleCancelEdit()}>cancel</button>
@@ -99,11 +99,11 @@ class EditBookItem extends React.Component {
 }
 class AddBookItem extends React.Component {
     addBook(input) {
-        this.props.onAddItem(this.userInput.value)
+        this.props.onAddItem(this.userInput) 
     }
     render() {
         return (
-            <div>
+            <div className="addForm">
                 <input ref={(input) => this.userInput = input} />
                 <button onClick={this.addBook.bind(this)}>+</button>
             </div>
