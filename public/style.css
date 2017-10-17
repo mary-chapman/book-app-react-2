@@ -1,0 +1,67 @@
+body {
+    font-family: 'Cutive Mono', monospace;
+}
+
+.container {
+    margin: 5%;
+}
+.addForm {
+    margin-bottom: 20px;
+}
+button {
+    border: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+    font: inherit;
+    margin: 10px;    
+}
+button:hover {
+    color: greenyellow;
+}
+h2 {
+    font-size: 16pt;
+    display: inline;
+    margin-right: 10px;
+}
+
+input {
+    width: 250px;
+    border: black solid 2px;
+}
+input {
+    font-family: 'Cutive Mono', monospace;
+    font-size: 16pt;
+}
+button:focus, input:focus {
+    outline: none;
+}
+
+@media (max-width: 400px) { 
+    .container {
+        width: 100%;
+    }
+    input {
+        width: 70%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .addForm {
+        width: 90%;
+    }
+    .addForm button {
+        font-size: 18pt;
+    }
+    h2 {
+        font-size: 12pt;
+        display: block;
+    }
+    .listItem {
+        margin-bottom: 30px;
+    }
+    .listItem button {
+        width: 25%;
+        margin: 5%;
+        margin-top: 1%;
+    }
+}
