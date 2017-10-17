@@ -20,17 +20,18 @@ class BookApp extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>Book List</h1>
-                <AddBookItem onAddItem={this.handleAddItem.bind(this)}/>
+                <AddBookItem className="addForm" onAddItem={this.handleAddItem.bind(this)}/>
                 
                 {this.state.books.map((book,index) => {
-                    return <BookItem key={index} 
-                                     title={book.title} 
-                                     index={index}
-                                     onDeleteItem={()=>{this.handleDeleteItem(index)}}
-                                     onSaveItem={this.handleSaveEdit.bind(this)}
-                                     />
+                    return <BookItem className="listItem" 
+                                    key={index} 
+                                    title={book.title} 
+                                    index={index}
+                                    onDeleteItem={()=>{this.handleDeleteItem(index)}}
+                                    onSaveItem={this.handleSaveEdit.bind(this)}
+                                    />
                 })}
             </div>
         )
@@ -41,12 +42,6 @@ class BookItem extends React.Component {
         super(props);
 
         this.state = { isEditing: false }
-    }
-    handleEditClick() {
-        this.setState({ isEditing: true })
-    }
-    handleCancelEdit() {
-        this.setState({ isEditing: false })
     }
     handleDelItem(index) {
         this.props.onDeleteItem(index)
@@ -59,10 +54,10 @@ class BookItem extends React.Component {
         return (
             (!this.state.isEditing) ? 
                 <ReadBookItem title={this.props.title} 
-                              onEditChange={() => this.handleEditClick()}
+                              onEditChange={() => this.setState({ isEditing: true })}
                               onDelItem={() => this.handleDelItem(this.props.index)}/> :
                 <EditBookItem title={this.props.title} 
-                              onCancelEdit={() => this.handleCancelEdit()}
+                              onCancelEdit={() => this.setState({ isEditing: false })}
                               onSaveItem={this.handleSaveItem.bind(this)}
                               />
         )
