@@ -25,7 +25,6 @@ class BookListContainer extends React.Component {
         this.setState({books: arrCopy})        
     }
     handleAddItem(input) {
-        console.log(input)
         if (input.value) {
             this.setState({ books: [...this.state.books, {title: input.value} ] })
             input.value = ""
@@ -60,12 +59,12 @@ class BookItem extends React.Component {
         return (
             (!this.state.isEditing) ? 
                 <ReadBookItem title={this.props.title} index={this.props.index} 
-                              onEditChange={() => this.setState({ isEditing: true })}
-                              onDelItem={() => this.props.onDeleteItem(this.props.index)}/> :
+                    onEditChange={() => this.setState({ isEditing: true })}
+                    onDelItem={() => this.props.onDeleteItem(this.props.index)} /> :
+                
                 <EditBookItem title={this.props.title} 
-                              onCancelEdit={() => this.setState({ isEditing: false })}
-                              onSaveItem={this.handleSaveItem.bind(this)}
-                              />
+                    onCancelEdit={() => this.setState({ isEditing: false })}
+                    onSaveItem={this.handleSaveItem.bind(this)} />
         )
     }
 }
@@ -81,31 +80,26 @@ class ReadBookItem extends React.Component {
     }
 }
 class EditBookItem extends React.Component {
-    handleCancelEdit() {
-        this.props.onCancelEdit();
-    }
-    handleSaveItem(input, index) {
-        this.props.onSaveItem(this.userInput.value, this.props.index)
-    }
     render() {
         return (
             <div className="listItem"> 
                 <input defaultValue={this.props.title} ref={(input) => this.userInput = input}/>
-                <button onClick={this.handleSaveItem.bind(this)}>save</button>
-                <button onClick={()=>this.handleCancelEdit()}>cancel</button>
+                <button onClick={() => this.props.onSaveItem(this.userInput.value, this.props.index)}>
+                    save
+                </button>
+                <button onClick={() => this.props.onCancelEdit()}>
+                    cancel
+                </button>
             </div>            
         )
     }
 }
-class AddBookItem extends React.Component {
-    addBook(input) {
-        this.props.onAddItem(this.userInput) 
-    }
+class AddBookItem extends React.Component {    
     render() {
         return (
             <div className="addForm">
                 <input ref={(input) => this.userInput = input} />
-                <button onClick={this.addBook.bind(this)}>+</button>
+                <button onClick={() => this.props.onAddItem(this.userInput) }>+</button>
             </div>
         )
     }
