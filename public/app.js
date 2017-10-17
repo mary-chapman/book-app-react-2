@@ -14,11 +14,16 @@ class BookApp extends React.Component {
         arrCopy[index].title = input //manipulates state on the copy
         this.setState({books: arrCopy})        
     }
+    handleAddItem(input) {
+        console.log(input)
+        this.setState({ books: [...this.state.books, {title: input} ] })
+    }
     render() {
         return (
             <div>
                 <h1>Book List</h1>
-                <AddBookItem />
+                <AddBookItem onAddItem={this.handleAddItem.bind(this)}/>
+                
                 {this.state.books.map((book,index) => {
                     return <BookItem key={index} 
                                      title={book.title} 
@@ -98,11 +103,14 @@ class EditBookItem extends React.Component {
     }
 }
 class AddBookItem extends React.Component {
+    addBook(input) {
+        this.props.onAddItem(this.userInput.value)
+    }
     render() {
         return (
             <div>
-                <input />
-                <button>+</button>
+                <input ref={(input) => this.userInput = input} />
+                <button onClick={this.addBook.bind(this)}>+</button>
             </div>
         )
     }
